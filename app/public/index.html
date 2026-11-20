@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow QA Sandbox</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <div>
+        <h1>OrderFlow QA Sandbox</h1>
+        <p class="subtitle">Multi-layer Test Automation Target (RBAC, Idempotency & SSRF Guard)</p>
+      </div>
+      <div id="user-badge" class="user-badge hidden">
+        <span id="user-label"></span>
+        <button id="logout-btn" type="button" class="btn-secondary">Logout</button>
+      </div>
+    </header>
+
+    <section id="login-view" class="card">
+      <h2>Sign In</h2>
+      <form id="login-form" class="form-grid">
+        <label>
+          Email
+          <input id="login-email" name="email" type="email" required placeholder="admin@qa-sandbox.test" />
+        </label>
+        <label>
+          Password
+          <input id="login-password" name="password" type="password" required placeholder="Password" />
+        </label>
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
+      <p id="login-error" class="alert error hidden" role="alert"></p>
+      <div class="hint">
+        Demo accounts: <code>admin@qa-sandbox.test</code> / <code>AdminDemo!2026</code> &bull;
+        <code>operator@qa-sandbox.test</code> / <code>OperatorDemo!2026</code>
+      </div>
+    </section>
+
+    <section id="dashboard-view" class="hidden">
+      <div class="grid-two">
+        <section class="card">
+          <h2>Create Order</h2>
+          <form id="order-form" class="form-grid">
+            <label>
+              Reference
+              <input id="order-ref" name="reference" type="text" required placeholder="ORD-2026-100" />
+            </label>
+            <label>
+              Customer Email
+              <input id="order-email" name="customerEmail" type="email" required placeholder="buyer@example.test" />
+            </label>
+            <label>
+              Amount
+              <input id="order-amount" name="amount" type="number" step="0.01" required placeholder="99.50" />
+            </label>
+            <label>
+              Currency
+              <select id="order-currency" name="currency">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+              </select>
+            </label>
+            <button type="submit" class="btn-primary">Create Order</button>
+          </form>
+          <p id="order-feedback" class="alert hidden" role="status"></p>
+        </section>
+
+        <section id="webhooks-card" class="card hidden">
+          <h2>Outbound Webhooks (Admin Only)</h2>
+          <form id="webhook-form" class="form-grid">
+            <label>
+              Target HTTPS URL
+              <input id="webhook-url" name="url" type="url" required placeholder="https://hooks.example.test/orders" />
+            </label>
+            <button type="submit" class="btn-primary">Register Webhook</button>
+          </form>
+          <p id="webhook-feedback" class="alert hidden" role="status"></p>
+          <ul id="webhook-list" class="simple-list"></ul>
+        </section>
+      </div>
+
+      <section class="card">
+        <div class="list-header">
+          <h2>Orders</h2>
+          <div class="filters">
+            <input id="search-input" type="search" placeholder="Search reference or email..." />
+            <select id="status-filter">
+              <option value="">All statuses</option>
+              <option value="pending">pending</option>
+              <option value="processing">processing</option>
+              <option value="completed">completed</option>
+              <option value="cancelled">cancelled</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Reference</th>
+                <th>Customer</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="orders-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
